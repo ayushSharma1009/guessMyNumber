@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="topheader">
+        <p id="status">Best Of luck</p>
+        <p id="info">
+            ( Between 1 and 20 )
+        </p>
+    </div>
+    <h1>Guess My Number!</h1>
+    <section class="main">
+        <div class="input">
+            <input type="number" id="guess" min="1" max="20"> <br>
+            <button id="check" onclick="checkGuess()">Check!</button>
+        </div>
+        <div class="scorecard">
+            <p id="message">Start Guessing....</p>
+            <p>Score: <span id="score">20</span></p>
+            <p>Highscore: <span id="highscore">0</span></p>
+
+        </div>
+    </section>
+    <div class="question">?</div>
+
+
+    <script>
+        let score = 20;
+        let highscore = 0;
+        let randomNumber = Math.floor(Math.random() * 20) + 1;
+
+        function checkGuess() {
+            const guess = parseInt(document.getElementById("guess").value);
+
+            if (guess < 1 || guess > 20 || isNaN(guess)) {
+                document.getElementById("message").textContent = "Please enter a valid number between 1 and 20.";
+                document.getElementById("status").textContent = "Again !";
+                return;
+            }
+
+            if (guess > randomNumber) {
+                score--;
+                document.getElementById("status").textContent = "Again !";
+                document.getElementById("message").textContent = "Too high";
+            } else if (guess < randomNumber) {
+                score--;
+                document.getElementById("status").textContent = "Again !";
+                document.getElementById("message").textContent = "Too low";
+            } else {
+                document.querySelector("body").style.backgroundColor = "green";
+                document.getElementById("message").textContent = "Congrats you guessed the correct number!";
+                document.getElementById("status").textContent = "Won";
+                if (score > highscore) {
+                    highscore = score;
+                    document.getElementById("highscore").textContent = highscore;
+                }
+                score = 20;
+                document.getElementById("guess").value = "";
+                resetGame();
+
+
+                setTimeout(function () {
+                    document.querySelector("body").style.backgroundColor = "black";
+                    document.getElementById("message").textContent = "Start guessing...";
+                    document.getElementById("status").textContent = "Best of luck!";
+                }, 3000);
+            }
+
+            document.getElementById("score").textContent = score;
+        }
+
+        function resetGame() {
+            randomNumber = Math.floor(Math.random() * 20) + 1;
+            score = 20;
+            document.getElementById("score").textContent = score;
+        }
+
+    </script>
+</body>
+
+</html>
